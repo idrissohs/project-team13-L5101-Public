@@ -37,3 +37,12 @@ As a user, I want a ability to enter the site as a guest so that I can use the s
 As a new user, I want a way to differentiate inappropriate content from not as impressive content, so I don't feel overwhelmed when choosing a video.
 
 as a new user, I want a forgiving and well thought out ranking system, so one early bad video doesn't ruin my time on the site for the rest of my experience with it.
+
+
+Personas: 
+
+Gamer Gary is a current high school student. He is really into video games and technology so he spends a lot of time on his computer. He is very familiar with online game parties and loves to spend hours playing games with friends. Garry and all his friends are familiar with the popular sharing sites such as Twitch and Reddit.
+
+Ambitious Amy currently attends university and is studying film and media. She also enjoys writing music and has much time invested in it. She has many projects that she likes to share with her friends. Amy’s friends tell her that she should post them up on the internet as they think they are really good. Amy is very outgoing and enjoys meeting new people.
+
+Season Finale Stan: The big TV show season finale is this weekend and Stan is an avid fan who wants to prepare. Ideally he wants to find other fans so they can share favorite scenes and discuss the latest plots and theories with each other. Stan can talk to anyone for hours about his favorite show.
