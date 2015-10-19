@@ -1,4 +1,18 @@
-Our Process:
+Process:
+-Prior to our first team meeting, we initially communicated through email
 
-	Our Process of organizing as a team developed a certain way because mostly we did not know each other before this project began and before we could start we had to actually meet in person and get to know one another. Because of this we first found a time we would all be free and met up at the Bahen Centre, this single meet-up quickly became our weekly meet-up, which we plan on continuing through out the project's length. To communicate and works we have used Facebook, Google Docs, and Github so far. All three of these services have been helpful when used, but as we have gone forward it seems that Google docs is becoming used less, and the other two are being used more. I think this is a good thing moving forward, and most likely we will no longer be using google docs from now on. Our other two communication sources have been helpful as they let us separate general discussion from work discussions very easily.
-	 So far organization and decision making have both completely been group activities, every decision has been casually agreed to by everyone, and most discussions involve all of our members throwing around ideas and responding to other's. As for organization, we have decided the way to split up work together and chosen individual jobs just by volunteering ourselves either in person or on Facebook. Hopefully going forward this system of volunteering to do work will continue. Going forward we expect to use Github more frequently and to possibly group up into smaller teams to tackle different parts of the problems non individually. Because we have had less technical work and more ideological work so far, our system will have to change to be more productive and frequent. That being said, I believe so far everything is going pretty well, as we have a project that we are all willing to work on, and a good sense of communication as a team. 
+-We brainstormed a rough plan of what our project would be by making suggestions and working off of each other’s ideas.
+
+-At our first team meeting, on Thursday Oct 8th, we solidified our idea for what the final project might be and started discussing potential ideas for what to write for our deliverables.
+
+-Discussing potential competition, personas, and user-stories as a group, helped us gain further insight as to what our completed project would look like.
+
+-To better our communication between group members, we connected through Facebook to create a group chat with all members.
+
+-We also use Google Docs in order easily exchange ideas for deliverables between members and have a collective place to store our work.
+
+-At our next meeting with Mahtab, on Thursday Oct 15th, we talked about our plan for the future of our project and how we will implement that plan.
+
+-We also decided how we would distribute some of the workload.
+
+ -Going forward with upcoming phases of the project we plan on having group meetings more often in addition to meeting every Thursday.
