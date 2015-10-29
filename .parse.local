@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "VideoHuse": {
+      "applicationId": "X7LP3L6kwwhLSc7nKGidi9UcnfC41XaOYIxxPbkq"
+    },
+    "_default": {
+      "link": "VideoHuse"
+    }
+  }
+}
