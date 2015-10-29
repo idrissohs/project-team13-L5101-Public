@@ -4,9 +4,12 @@ $(document).ready(function(){
 	// Sign up form code starts
 	$("#signUpForm").submit(function(e){
 		e.preventDefault();
-		
 		signUpUser();
 	})
+	
+	$("#main").click(function(e) {
+		$("#main").load("html/SignupForm.html");
+	});
 	
 	function signUpUser(){
 		var user = new Parse.User;
@@ -26,6 +29,5 @@ $(document).ready(function(){
 		});
 	}
 	
-	// Sign up form code ends
-	
+
 })
