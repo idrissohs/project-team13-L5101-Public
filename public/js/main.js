@@ -26,10 +26,5 @@ $(document).ready(function(){
 		});
 	}
 	
-	function displayProfile(user){
-		document.getElementById("main").innerHTML=""
-	}
-	
-	// Sign up form code ends
-	
+
 })
