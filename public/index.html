@@ -12,6 +12,7 @@
     <title>VideoHuse live video sharing</title>
 
     <!-- Bootstrap Core CSS -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
       <link href="css/forms.css" rel="stylesheet">
 
@@ -22,9 +23,10 @@
         /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     }
     </style>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    
     <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.7.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/forms.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -58,13 +60,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">VideoHuse</a>
+                <a class="navbar-brand" href="/index.html">VideoHuse</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">Home</a>
+                        <a href="/index.html">Home</a>
                     </li>
                     <li>
                         <a href="#">Categories</a>
@@ -73,18 +75,20 @@
                         <a href="#">Popular</a>
                     </li>
                 </ul>
+		<a id="currentUser" class="nav navbar-nav navbar-right"></a>
             </div>
+	    
             <!-- /.navbar-collapse -->
         </div>
+	
         <!-- /.container -->
 </nav>
 
     <!-- Page Content -->
-    <div class="row" id="main">
-      <div class=".col-md-6">
-	<button type="button" class="btn btn-primary btn-lg btn-block" id="SignIn">Sign In</button>
+    <div class="jumbotron" id="home">
+	<h3> Welcome to VideoHuse where your share your favourite videos instantly with the world</h3>
 	<button type="button" class="btn btn-primary btn-lg btn-block" id="SignUp">Sign Up</button>
-	<button type="button" class="btn btn-primary btn-lg btn-block" id="Guest" >Don't Want to? Sign in as a Guest</button>
+	<div class=".col-md-6" id="signupform"></div>
       </div>
     </div>
 
