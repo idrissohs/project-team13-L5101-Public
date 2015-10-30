@@ -3,14 +3,16 @@ $(document).ready(function(){
       $("#register-form").submit(function(e) {
 	e.preventDefault();
 	console.log("here");
-	if ($("reg_password").val() == $("#reg_password_confirm").val()) {
+	if ($("#reg_password").val() == $("#reg_password_confirm").val()) {
 	    signUpUser();
+	    $("#register-form").hide();
 	}
 	
 	
       });
       
       $("#login").submit(function(e) {
+	e.preventDefault();
 	var user= new Parse.User;
 	user.set("username", $("#user").val());
 	user.set("password", $("#pass").val());
@@ -36,7 +38,6 @@ $(document).ready(function(){
 	checklogin();
       function signUpUser() {
 		var user = new Parse.User;
-		
 		user.set("username", $("#reg_username").val());
 		user.set("password", $("#reg_password").val());
 		user.set("email", $("reg_email").val());
@@ -52,4 +53,5 @@ $(document).ready(function(){
 		  }
 		});
 	}
-}
+	
+});
