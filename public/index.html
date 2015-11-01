@@ -23,10 +23,10 @@
         /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     }
     </style>
-    
+    	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.7.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/forms.js"></script>
+    <script type="text/javascript" src="js/handlebars-v4.0.4.js"></script>
+    <script type="text/javascript" src="js/videohuse.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,6 +35,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.7.min.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
 	
 	
 	<!-- This is where our js code will be -->
@@ -50,7 +51,45 @@
 	</script>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      
+      <nav class="navbar navbar-inverse navbar-fixed-top" id="topmenu"role="navigation">
+      </nav>
+
+    <!-- Page Content -->
+    <div class="text-center bg-danger" id="message">
+    </div>
+    <div class="row">
+      <div class="col-md-8" id="main">
+	
+      </div>
+      <div class="col-md-4" id="chat">
+	
+      </div>
+    </div>
+    
+
+
+
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <script id="IndexView" type="text/x-handlebars-template">
+      <div class="row">
+      <div class="col-md-8" id="main">
+	<div class="jumbotron" id="bodytext">
+	<div class="container">
+	  <h1>Welcome to VideoHuse </h1>
+	    <p>Join to share videos and watch them at the same time with your friends</p>
+	  <p><a class="btn btn-primary btn-lg" id="bodysignup" href="signup" role="button">Sign up</a></p>
+        </div>
+      </div>      
+      </div>
+      </div>
+    </script>
+    <script id="HeaderView" type="text/x-handlebars-template">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -63,50 +102,95 @@
                 <a class="navbar-brand" href="/index.html">VideoHuse</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav" id="menu">
                     <li>
-                        <a href="/index.html">Home</a>
+                        <a id= "homemenu" href="">Home</a>
                     </li>
                     <li>
-                        <a href="#">Categories</a>
+                        <a id="categoriesmenu" href="">Categories</a>
                     </li>
                     <li>
-                        <a href="#">Popular</a>
+                        <a id="signupmenu" href="">Sign Up</a>
                     </li>
                 </ul>
-		<div id="currentUser" class="nav navbar-nav navbar-right"></div>
-	    
             </div>
 	    
             <!-- /.navbar-collapse -->
-        </div>
-	
         <!-- /.container -->
-</nav>
-
-    <!-- Page Content -->
-    <div class="jumbotron" id="home">
-	<h3> Welcome to VideoHuse where your share your favourite videos instantly with the world</h3>
-	<button type="button" class="btn btn-primary btn-lg btn-block" id="SignUp">Sign Up</button>
-	<div class=".col-md-6" id="signupform"></div>
+      <div class="text-center nav navbar-nav navbar-right">
+	{{#if username}}
+	<p style="color: white">Welcome, {{username}}</p>
+	<form id="logoutform"method="post">
+          <input type="submit" name="logout" class="btn btn-default" value="Log Out">
+	</form>
+	{{else}}
+      <form class="form-inline" id="topcorner" role ="form" method="post">
+        <div class="form-group">
+            <label class="sr-only" for="exampleInputEmail3">Username</label>
+            <input type="text" name="username" class="form-control" id="user" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="exampleInputPassword3">Password</label>
+            <input type="password" name="password"class="form-control" id="pass" placeholder="Password">
+        </div>
+        <button type="submit" name="login" class="btn btn-default">Sign in</button>
+      </form>
       </div>
+	</div>
+      {{/if}}
+    </script>
+    
+    <script id="Room" type="text/x-handlebars-template">
+    </script>
+    <script id="Category" type="text/x-handlebars-template">
+      
+    </script>
+    <script id="login" type="text/x-handlebars-template">
+      
+    </script>
+    <script id="signup" type="text/x-handlebars-template">
+       <div class="text-center" style="padding:50px 0">
+	<div class="logo">register</div>
+	<!-- Main Form -->
+	<div class="login-form-1">
+		<form id="register-form" class="text-left" method="post">
+			<div class="login-form-main-message"></div>
+			<div class="main-login-form">
+				<div class="login-group">
+					<div class="form-group">
+						<input type="text" class="form-control" id="reg_username" name="reg_username" placeholder="username">
+					</div>
+					<div class="form-group">
+						<label for="reg_password" class="sr-only">Password</label>
+						<input type="password" class="form-control" id="reg_password" name="reg_password" placeholder="password">
+					</div>
+					<div class="form-group">
+						<label for="reg_password_confirm" class="sr-only">Password Confirm</label>
+						<input type="password" class="form-control" id="reg_password_confirm" name="reg_password_confirm" placeholder="confirm password">
+					</div>
+					
+					<div class="form-group">
+						<label for="reg_email" class="sr-only">Email</label>
+						<input type="email" class="form-control" id="reg_email" name="reg_email" placeholder="email">
+					</div>
+
+				</div>
+				<button type="submit" id="signupbtn" class="login-button"><i class="fa fa-chevron-right"></i>Sign Up</button>
+			</div>
+		</form>
+	</div>
+	<!-- end:Main Form -->
+
     </div>
-
-
-
-
-    <!-- jQuery Version 1.11.1 -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
+    </script>
 </body>
 <footer class="text-center">
-                    <h3>Bootstrap v3.3.1</h3>
-                    <h3>jQuery v1.11.1</h3>
+                    <p>Bootstrap v3.3.1</p>
+                    <p>jQuery v1.11.1</p>
 
 </footer>
+</html>
+
 
 
