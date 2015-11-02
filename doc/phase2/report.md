@@ -1,38 +1,6 @@
-Sprint Backlog (Rafael)
+﻿Sprint Backlog (Rafael)
 
-Attempt to complete user authentication, sign in, sign ups, and logs, and basic layout of the page. User stories covered:
-●	As a user, I want an account (username and password) so that I can be recognized by other users.
-●	As a watcher of videos, I want a chat box so that I can communicate with other watchers.
-●	As a user, I want a ability to enter the site as a guest so that I can test the site out before committing to giving it my email and other information.
-●	As a user, I want a ability to enter the site as a guest so that I can use the site causally on any computer.
-
-Tasks being split:
-
-1.	Read the Parse documentation (M)
-○	Objects
-○	Users
-○	Sessions
-○	Files
-○	Data
-2.	Sign Up and authentication (M)
-3.	Profile Page (S)
-4.	Views:
-○	signupview (m)
-○	signinview (s)
-○	profileview (m)
-○	categoryview (m)
-○	roomview (l)
-5.	Basic Page Layout (CSS) (S)
-6.	Video room (L)
-7.	Chat box in the video room (L)
-
-
-
-
-
-
-
-
+Refer to PDF file : Sprint-Backlog.pdf
 
 
 Initial Meeting: (Adib)
@@ -59,15 +27,17 @@ We decided to categorize tasks to 3 different sizes:
 
 
 
+BurnDown Chart: (Cameron)
+In this folder under “Team BurnDown.png”
 
+Left axis is amount of work by task size, with the legend of:
+Small Tasks = 1
+Medium Tasks = 2
+Large Tasks = 4
 
+We chose this system because medium tasks are roughly double the size of small tasks. and large tasks are roughly double the size of medium tasks.
 
-
-
-
-
-
-
+With individual Charts people were given the full points for tasks they did with others, that way it was easy to make your chart by just looking at the task size (s/m/l) for all of the tasks you were part of. The task table we looked at to calculate our work done is attached as "Task Table.rtf".
 
 
 
