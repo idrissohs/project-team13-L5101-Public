@@ -59,15 +59,17 @@ We decided to categorize tasks to 3 different sizes:
 
 
 
+BurnDown Chart: (Cameron)
+In this folder under “Team BurnDown.png”
 
+Left axis is amount of work by task size, with the legend of:
+Small Tasks = 1
+Medium Tasks = 2
+Large Tasks = 4
 
+We chose this system because medium tasks are roughly double the size of small tasks. and large tasks are roughly double the size of medium tasks.
 
-
-
-
-
-
-
+With individual Charts people were given the full points for tasks they did with others, that way it was easy to make your chart by just looking at the task size (s/m/l) for all of the tasks you were part of. The task table we looked at to calculate our work done is attached as "Task Table.rtf".
 
 
 
