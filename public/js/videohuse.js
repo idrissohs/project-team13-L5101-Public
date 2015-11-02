@@ -132,7 +132,7 @@ $(document).ready(function(){
                 e.preventDefault();
                 videoRouter.navigate('#/signup' ,{trigger: true});
 		    },
-            categoriesL function(e){
+            categories: function(e){
                 e.preventDefault();
                 videoRouter.navigate('#/categories', {trigger: true});
             },
