@@ -6,50 +6,60 @@ $(document).ready(function(){
 	Parse.initialize("X7LP3L6kwwhLSc7nKGidi9UcnfC41XaOYIxxPbkq", "Dr7rcytsF6MrtE5lZT0olIiV6MvJ55AlgRz1Ntfz");
 	var $container = $('#main'),
 		$sidebar = $('#chat'),
-		$topbar = $('#topmenu')
-                Category = Parse.Object.extend('Category', {}),
-                Room = Parse.Object.extend('Room', {
-                    update: function(data){
-                        if (!this.get('ACL')) {
-					var videoACL = new Parse.ACL(Parse.User.current());
-					videoACL.setPublicReadAccess(true);
-					// Set this ACL object to the ACL field
-					this.setACL(blogACL);
+		$topbar = $('#topmenu'),
+        Category = Parse.Object.extend('Category', {}),
+        Room = Parse.Object.extend('Room', {
+            update: function(data){
+                if (!this.get('ACL')) {
+			    var videoACL = new Parse.ACL(Parse.User.current());
+                videoACL.setPublicReadAccess(true);
+				// Set this ACL object to the ACL field
+				this.setACL(blogACL);
 				}
-                                var category = new Category();
-                                category.id = data.category;
+                var category = new Category();
+                category.id = data.category;
                                 
-                                this.set({
-                                    'title': data.title,
-                                    'category': data.category,
-                                    'user': Parse.User.current(),
-                                }).save(null, {
-                                    success: function(Room){
-                                        videoRouter.navigate('#/room' , {trigger: true});
-                                    },
-                                    error: function(Room, error){
-                                        console.log('error is '+ error.message)
-                                    }
-                                    });
-                                    
-                                }
-                }),
+                this.set({
+                    'title': data.title,
+                    'category': data.category,
+                    'user': Parse.User.current(),
+                }).save(null, {
+                    success: function(Room){
+                        videoRouter.navigate('#/room' , {trigger: true});
+                    },
+                    error: function(Room, error){
+                        console.log('error is '+ error.message)
+                    }
+                });              
+            }
+        }),
+                    
 		Rooms = Parse.Collection.extend({
 		    model: Room
 		}),
-                Category = Parse.Object.extend('Category', {}) ,
-                Categories = Parse.Collection.extend({
+                    
+        Category = Parse.Object.extend('Category', {}) ,
+        Categories = Parse.Collection.extend({
 			model: Category
 		}),
-                Roomview = Parse.View.extend({
-                    template: Handlebars.compile($('#Room').html()),
-                    render: function() {
-                        var collection ={
-                            username: this.options.username,
-                            room: this.collection.toJSON()
-                        }
-                    }
-                }),
+               
+        CategoriesView = Parse.View.extend({
+            template: Handlebars.compile($('#Category').html()),
+            render: function() {
+                this.$el.html(this.template());
+		    }
+        }),
+        
+        Roomview = Parse.View.extend({
+            template: Handlebars.compile($('#Room').html()),
+            render: function() {
+                var collection ={
+                    username: this.options.username,
+                    room: this.collection.toJSON()
+                }
+            }
+        }),
+                    
 		SignUpView = Parse.View.extend({
 		    template: Handlebars.compile($('#signup').html()),
 		    events: {
@@ -57,79 +67,88 @@ $(document).ready(function(){
 			},
 		    signup: function(e){
 
-			e.preventDefault();
-			var data = $(e.target).serializeArray(),
+                e.preventDefault();
+                var data = $(e.target).serializeArray(),
 				username = data[0].value,
 				password = data[1].value,
 				repassword=data[2].value,
 				email = data[3].value;
-			if (password == repassword) {
-			    Parse.User.signUp(username, password, {email: email}, {
-				success: function (user){
-				    videoRouter.navigate('#',{trigger: true});
-				},
-				error: function(user, error){
-				    console.log(error.message);
-				}}
-				)
-			}
-			else {
-			    document.getElementById("message").innerHTML = "passwords do not match";
-			    videoRouter.navigate('#/signup', {trigger: true});
-			}
-		    },
-		    render: function() {
-			this.$el.html(this.template());
+                
+                if (password == repassword) {
+                    Parse.User.signUp(username, password, {email: email}, {
+                        success: function (user){
+                            videoRouter.navigate('#',{trigger: true});
+                        },
+                        error: function(user, error){
+                            console.log(error.message);
+                        }
+                    })
+                }
+                else {
+                    document.getElementById("message").innerHTML = "passwords do not match";
+                    videoRouter.navigate('#/signup', {trigger: true});
+                }
+            },
+            render: function() {
+                this.$el.html(this.template());
 		    }
 		}),
+                    
 		HeaderView = Parse.View.extend({
 		    template: Handlebars.compile($('#HeaderView').html()),
 		    events: {
 				'submit #topcorner': 'login',
 				'click #homemenu': 'home',
 				'click #signupmenu':'signup',
-				'submit #logoutform' :'logout'
+				'submit #logoutform' :'logout',
+                'click #categoriesmenu' :'categories'
 			},
 		    login: function(e) {
-			e.preventDefault();
-			var data = $(e.target).serializeArray(),
-					username = data[0].value,
-					password = data[1].value;
-			    Parse.User.logIn(username, password, {
+                e.preventDefault();
+                var data = $(e.target).serializeArray(),
+				username = data[0].value,
+				password = data[1].value;
+                Parse.User.logIn(username, password, {
 				    succes: function(user){
-					console.log("inside headerview login");
-					videoRouter.navigate('#',{trigger:true});
-			    },
+                        console.log("inside headerview login");
+                        videoRouter.navigate('#',{trigger:true});
+                    },
 				    error: function (user, error){
-					console.log(error.message);
-			    }});	
-		    },
-		    logout: function(e) {
-			e.preventDefault();
-			Parse.User.logOut();
-			console.log('inside logout in headerview');
-			videoRouter.navigate('#', {trigger: true});
+                        console.log(error.message);
+                    }
+                });	
+            },
+            logout: function(e) {
+                e.preventDefault();
+                Parse.User.logOut();
+                console.log('inside logout in headerview');
+                videoRouter.navigate('#', {trigger: true});
 		    },
 		    home: function(e){
-			e.preventDefault();
-			videoRouter.navigate('#', {trigger: true});
+                e.preventDefault();
+                videoRouter.navigate('#', {trigger: true});
 		    },
 		    signup: function(e){
-			e.preventDefault();
-			videoRouter.navigate('#/signup' ,{trigger: true});
+                e.preventDefault();
+                videoRouter.navigate('#/signup' ,{trigger: true});
 		    },
+            categoriesL function(e){
+                e.preventDefault();
+                videoRouter.navigate('#/categories', {trigger: true});
+            },
 		    render: function() {
-			if (Parse.User.current()) {
-			    var collection={
-			    username: this.options.username
-			    };
-			    this.$el.html(this.template({username: Parse.User.current().get('username')}));
-			}
-			else {
-			    this.$el.html(this.template());
-			}
+                if (Parse.User.current()) {
+                    var collection={
+                        username: this.options.username
+                    };
+                    this.$el.html(this.template({username: Parse.User.current().get('username')}));
+                }
+                else {
+                    this.$el.html(this.template());
+                }
 		    }
-		}),
+        }),
+                    
 		IndexView = Parse.View.extend({
 		    template: Handlebars.compile($('#IndexView').html()),
 		    events: {
@@ -144,6 +163,7 @@ $(document).ready(function(){
 			this.$el.html(this.template());
 		    }
 		}),
+                    
 		roomRouter = Parse.Router.extend({
 		
 			// Here you can define some shared variables
@@ -165,7 +185,8 @@ $(document).ready(function(){
 			routes: {
 				'': 'index',
 				'logout': 'logout',
-				'signup': 'signup',			},
+				'signup': 'signup',
+                'categories': 'categories'},
 			index: function() {
 			    var currentuser= Parse.User.current();
 				if (currentuser) {
@@ -200,11 +221,16 @@ $(document).ready(function(){
 			    Parse.User.logOut();
 			    console.log('inside logout');
 			    this.navigate('#/signup', { trigger: true }); 
-			}
-                }),
-		videoRouter = new roomRouter();
-		
-		videoRouter.start({pushState: true});
+			},
+            categories: function(){
+			    console.log('inside categories');
+			    categories = new CategoriesView({}),
+				categories.render();
+				$container.html(categories.el);
+            }
+        }),
+        videoRouter = new roomRouter();
+    videoRouter.start({pushState: true});
 
 });
 
