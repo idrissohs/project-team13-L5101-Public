@@ -1,38 +1,6 @@
-Sprint Backlog (Rafael)
+﻿Sprint Backlog (Rafael)
 
-Attempt to complete user authentication, sign in, sign ups, and logs, and basic layout of the page. User stories covered:
-●	As a user, I want an account (username and password) so that I can be recognized by other users.
-●	As a watcher of videos, I want a chat box so that I can communicate with other watchers.
-●	As a user, I want a ability to enter the site as a guest so that I can test the site out before committing to giving it my email and other information.
-●	As a user, I want a ability to enter the site as a guest so that I can use the site causally on any computer.
-
-Tasks being split:
-
-1.	Read the Parse documentation (M)
-○	Objects
-○	Users
-○	Sessions
-○	Files
-○	Data
-2.	Sign Up and authentication (M)
-3.	Profile Page (S)
-4.	Views:
-○	signupview (m)
-○	signinview (s)
-○	profileview (m)
-○	categoryview (m)
-○	roomview (l)
-5.	Basic Page Layout (CSS) (S)
-6.	Video room (L)
-7.	Chat box in the video room (L)
-
-
-
-
-
-
-
-
+Refer to PDF file : Sprint-Backlog.pdf
 
 
 Initial Meeting: (Adib)
