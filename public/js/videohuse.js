@@ -5,7 +5,8 @@ $(document).ready(function(){
 	// Replace this line with the one on your Quickstart Guide Page
 	Parse.initialize("X7LP3L6kwwhLSc7nKGidi9UcnfC41XaOYIxxPbkq", "Dr7rcytsF6MrtE5lZT0olIiV6MvJ55AlgRz1Ntfz");
 	var $container = $('#main'),
-        $sidebar = $('.category-sidebar'),
+        $topmenu = $('#topmenu'),
+        $sidebar = $('#chat'),
         Category = Parse.Object.extend('Category', {}),
         Categories = Parse.Collection.extend({
 			model: Category
@@ -27,9 +28,14 @@ $(document).ready(function(){
     var CategoriesView = Parse.View.extend({
         template: Handlebars.compile($('#Category').html()),
         render: function() {
-            var collection = {category: this.collection.toJSON()};
-            this.$el.html(this.template());
-            //this.$el.html(this.template(collection));	
+            if (Parse.User.current()) {
+                //this.$el.html(this.template(collection));	
+                var collection = {category: this.collection.toJSON()};
+                this.$el.html(this.template());
+            }
+            else{
+                videoRouter.navigate('', {trigger: true});
+            }
         }
     });
     var SignupView = Parse.View.extend({
@@ -51,6 +57,7 @@ $(document).ready(function(){
             user.signUp(null,{
                 success: function (user){
                     console.log('successful signup');
+                    videoRouter.navigate('inheader',{trigger: true});
                     videoRouter.navigate('categories' ,{trigger: true});
                 },
                 error: function (user, error){
@@ -70,13 +77,10 @@ $(document).ready(function(){
                 this.$el.html(this.template());
             }
         }
-    })
+    });
     var IndexView = Parse.View.extend({
         template: Handlebars.compile($('#IndexView').html()),
         events: {
-            'submit #signupform': 'signup',
-            'submit #signinform': 'signin',
-            'submit #logoutform': 'logout',
             'click #bodysignup': 'enter_signup'
         },
         enter_signup: function(e){
@@ -84,49 +88,63 @@ $(document).ready(function(){
             console.log("entering signup page");
             videoRouter.navigate('signup',{trigger: true});
         },
+        render: function() {
+            if (Parse.User.current()) {
+                videoRouter.navigate('categories', {trigger: true});
+            }
+            else{
+                this.$el.html(this.template());
+            }
+        }
+    });
+    
+    var inHeaderView = Parse.View.extend({
+        template: Handlebars.compile($('#inHeaderView').html()),
+        events: {
+            'submit #logoutform': 'logout',
+        },
         logout: function(e){
             e.preventDefault();
             console.log("logging out");
-            videoRouter.navigate('logout',{trigger: true});
+            Parse.User.logOut();
+            console.log('successful logout');
+            videoRouter.outheader(); 
+            videoRouter.navigate('',{trigger: true});
         },
-        signup: function(e){
-            e.preventDefault();
-            console.log('indexview');
-            var data = $(e.target).serializeArray(),
-				username = data[0].value,
-				password = data[1].value,
-				email = data[2].value;
-            user = new Parse.User();
-            user.set('username', username);
-            user.set('password', password);
-            user.set('email', email);
-            user.signUp(null,{
-                success: function (user){
-                    console.log('success');
-                    videoRouter.navigate('room' ,{trigger: true});
-                },
-                error: function (user, error){
-                    console.log(error.message);
-                }
-            });
+        render: function() {
+            if (Parse.User.current()) {
+                this.$el.html(this.template());
+            }
+            else{
+                videoRouter.outheader();
+            }
+        }
+    });
+    var outHeaderView = Parse.View.extend({
+        template: Handlebars.compile($('#outHeaderView').html()),
+        events: {
+            'submit #signinform': 'signin',
         },
         signin: function(e){
             e.preventDefault();
-            console.log('sign in inside index view');
-            Parse.User.logIn($('#inputUser').val, $('#inputPassword').val, {
+            console.log('sign in inside header');
+            Parse.User.logIn($('#user').val(), $('#pass').val(), {
                 success: function(user){
-				    videoRouter.navigate('room',{trigger: true});
+                    videoRouter.inheader();
+				    videoRouter.navigate('categories',{trigger: true});
                 },
                 error: function (user, error){
+                    console.log("given username: "+$('#user').val());
+                    console.log("given password: "+$('#pass').val());          
                     console.log(error.message);
                 }
             });
         },
-        render: function(){
+        render: function() {
             if (Parse.User.current()) {
-                this.$el.html(this.template({username: Parse.User.current().get('username')}));
+                videoRouter.inheader();
             }
-            else {
+            else{
                 this.$el.html(this.template());
             }
         }
@@ -143,7 +161,11 @@ $(document).ready(function(){
             console.log("inside start of the router");
             Parse.history.start({pushState: true});
             this.navigate('', {trigger: true});
-
+            
+            headerview = new outHeaderView();
+            headerview.render();
+            $topmenu.html(headerview.el);
+            console.log("made header");
         },	
         // This is where you map functions to urls.
         // Just add '{{URL pattern}}': '{{function name}}'
@@ -152,7 +174,8 @@ $(document).ready(function(){
             'signup': 'signup',
             'categories': 'categories',
             'room': 'room',
-            'logout': 'logout'
+            'inheader':'inheader',
+            'outheader':'outheader'
         },
         index: function() {
             console.log('inside index');
@@ -184,19 +207,18 @@ $(document).ready(function(){
             roomview.render();
             $container.html(roomview.el);
         },
-        logout: function(){
-            console.log('inside logout router');
-            Parse.User.logOut().then(
-                function(){
-                    console.log('successful logout');
-                    this.navigate('',{trigger: true});
-                },
-                function(error){
-                    console.log('unsuccessful logout');
-                    console.log(error.message);
-                }
-            );
-        } 		
+        inheader: function(){
+            console.log("logged in header");
+            headerview = new inHeaderView();
+            headerview.render();
+            $topmenu.html(headerview.el);
+        },
+        outheader: function(){
+            console.log("logged out header");
+            headerview = new outHeaderView();
+            headerview.render();
+            $topmenu.html(headerview.el);
+        }
     });
     videoRouter = new roomRouter();	
     videoRouter.start({pushState: true});

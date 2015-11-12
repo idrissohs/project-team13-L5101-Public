@@ -84,7 +84,7 @@
             </div>
         </div>
     </script>
-    <script id="HeaderView" type="text/x-handlebars-template">
+    <script id="inHeaderView" type="text/x-handlebars-template">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -105,8 +105,39 @@
                     <li>
                         <a id="categoriesmenu" href="">Categories</a>
                     </li>
+                </ul>
+            </div>
+	    
+            <!-- /.navbar-collapse -->
+            <!-- /.container -->
+            <div class="text-center nav navbar-nav navbar-right">
+                <p style="color: white">Welcome, {{username}}</p>
+                <form id="logoutform"method="post">
+                    <input type="submit" name="logout" class="btn btn-default" value="Log Out">
+	            </form>
+            </div>
+        </div>
+    </script>
+        <script id="outHeaderView" type="text/x-handlebars-template">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/index.html">VideoHuse</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav" id="menu">
                     <li>
-                        <a id="signupmenu" href="">Sign Up</a>
+                        <a id= "homemenu" href="">Home</a>
+                    </li>
+                    <li>
+                        <a id="categoriesmenu" href="">Categories</a>
                     </li>
                 </ul>
             </div>
@@ -114,13 +145,7 @@
             <!-- /.navbar-collapse -->
             <!-- /.container -->
             <div class="text-center nav navbar-nav navbar-right">
-	{{#if username}}
-                <p style="color: white">Welcome, {{username}}</p>
-                <form id="logoutform"method="post">
-                    <input type="submit" name="logout" class="btn btn-default" value="Log Out">
-	            </form>
-	{{else}}
-                <form class="form-inline" id="topcorner" role ="form" method="post">
+                <form class="form-inline" id="signinform" role ="form" method="post">
                     <div class="form-group">
                         <label class="sr-only" for="exampleInputEmail3">Username</label>
                         <input type="text" name="username" class="form-control" id="user" placeholder="Username">
@@ -133,7 +158,6 @@
                 </form>
             </div>
         </div>
-      {{/if}}
     </script>
     
     <script id="Room" type="text/x-handlebars-template">
