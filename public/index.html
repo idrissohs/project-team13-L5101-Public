@@ -18,12 +18,12 @@
 
     <!-- Custom CSS -->
     <style>
-    body {
-        padding-top: 70px;
-        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    }
+        body {
+            padding-top: 70px;
+            /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+        }
     </style>
-    	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.7.min.js"></script>
     <script type="text/javascript" src="js/handlebars-v4.0.4.js"></script>
     <script type="text/javascript" src="js/videohuse.js"></script>
@@ -46,25 +46,20 @@
 
 <body>
     <!-- This for our page to communicate with Parse.com -->
-    	<script>
+    <script>
 		Parse.initialize("X7LP3L6kwwhLSc7nKGidi9UcnfC41XaOYIxxPbkq", "Dr7rcytsF6MrtE5lZT0olIiV6MvJ55AlgRz1Ntfz");
 	</script>
 
     <!-- Navigation -->
       
-      <nav class="navbar navbar-inverse navbar-fixed-top" id="topmenu"role="navigation">
-      </nav>
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="topmenu"role="navigation">
+    </nav>
 
     <!-- Page Content -->
-    <div class="text-center bg-danger" id="message">
-    </div>
+    <div class="text-center bg-danger" id="message"></div>
     <div class="row">
-      <div class="col-md-8" id="main">
-	
-      </div>
-      <div class="col-md-4" id="chat">
-	
-      </div>
+        <div class="col-md-8" id="main"></div>
+        <div class="col-md-4" id="chat"></div>
     </div>
     
 
@@ -77,19 +72,19 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
     <script id="IndexView" type="text/x-handlebars-template">
-      <div class="row">
-      <div class="col-md-8" id="main">
-	<div class="jumbotron" id="bodytext">
-	<div class="container">
-	  <h1>Welcome to VideoHuse </h1>
-	    <p>Join to share videos and watch them at the same time with your friends</p>
-	  <p><a class="btn btn-primary btn-lg" id="bodysignup" href="signup" role="button">Sign up</a></p>
+        <div class="row">
+            <div class="col-md-8" id="main">
+	           <div class="jumbotron" id="bodytext">
+	               <div class="container">
+	                   <h1>Welcome to VideoHuse </h1>
+	                   <p>Join to share videos and watch them at the same time with your friends</p>
+	                   <p><button class="btn btn-primary btn-lg" id="bodysignup" href="signup" role="button">Sign up</button></p>
+                    </div>
+                </div>      
+            </div>
         </div>
-      </div>      
-      </div>
-      </div>
     </script>
-    <script id="HeaderView" type="text/x-handlebars-template">
+    <script id="inHeaderView" type="text/x-handlebars-template">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -110,35 +105,59 @@
                     <li>
                         <a id="categoriesmenu" href="">Categories</a>
                     </li>
+                </ul>
+            </div>
+	    
+            <!-- /.navbar-collapse -->
+            <!-- /.container -->
+            <div class="text-center nav navbar-nav navbar-right">
+                <p style="color: white">Welcome, {{username}}</p>
+                <form id="logoutform"method="post">
+                    <input type="submit" name="logout" class="btn btn-default" value="Log Out">
+	            </form>
+            </div>
+        </div>
+    </script>
+        <script id="outHeaderView" type="text/x-handlebars-template">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/index.html">VideoHuse</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav" id="menu">
                     <li>
-                        <a id="signupmenu" href="">Sign Up</a>
+                        <a id= "homemenu" href="">Home</a>
+                    </li>
+                    <li>
+                        <a id="categoriesmenu" href="">Categories</a>
                     </li>
                 </ul>
             </div>
 	    
             <!-- /.navbar-collapse -->
-        <!-- /.container -->
-      <div class="text-center nav navbar-nav navbar-right">
-	{{#if username}}
-	<p style="color: white">Welcome, {{username}}</p>
-	<form id="logoutform"method="post">
-          <input type="submit" name="logout" class="btn btn-default" value="Log Out">
-	</form>
-	{{else}}
-      <form class="form-inline" id="topcorner" role ="form" method="post">
-        <div class="form-group">
-            <label class="sr-only" for="exampleInputEmail3">Username</label>
-            <input type="text" name="username" class="form-control" id="user" placeholder="Username">
+            <!-- /.container -->
+            <div class="text-center nav navbar-nav navbar-right">
+                <form class="form-inline" id="signinform" role ="form" method="post">
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputEmail3">Username</label>
+                        <input type="text" name="username" class="form-control" id="user" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword3">Password</label>
+                        <input type="password" name="password"class="form-control" id="pass" placeholder="Password">
+                    </div>
+                    <button type="submit" name="login" class="btn btn-default">Sign in</button>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="sr-only" for="exampleInputPassword3">Password</label>
-            <input type="password" name="password"class="form-control" id="pass" placeholder="Password">
-        </div>
-        <button type="submit" name="login" class="btn btn-default">Sign in</button>
-      </form>
-      </div>
-	</div>
-      {{/if}}
     </script>
     
     <script id="Room" type="text/x-handlebars-template">
@@ -222,12 +241,12 @@
       
     </script>
     
-    <script id="signup" type="text/x-handlebars-template">
+    <script id="Signup" type="text/x-handlebars-template">
        <div class="text-center" style="padding:50px 0">
 	       <div class="logo">register</div>
 	       <!-- Main Form -->
 	       <div class="login-form-1">
-		      <form id="register-form" class="text-left" method="post">
+		      <form id="signupform" class="text-left" method="post">
 			  <div class="login-form-main-message"></div>
 			     <div class="main-login-form">
 				    <div class="login-group">
@@ -259,8 +278,8 @@
     </script>
 </body>
 <footer class="text-center">
-                    <p>Bootstrap v3.3.1</p>
-                    <p>jQuery v1.11.1</p>
+    <p>Bootstrap v3.3.1</p>
+    <p>jQuery v1.11.1</p>
 
 </footer>
 </html>
