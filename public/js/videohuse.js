@@ -14,8 +14,53 @@ $(document).ready(function(){
 		hand = Handlebars.registerHelper('scripting', function(scriptPath) {
 		    return "<script src='" + scriptPath + "' type='text/javascript'></script>";
 		});
+    var message;
+    var field;
+    var sendButton;
+    var content;
+    var name;
+    var socket;
     var Roomview = Parse.View.extend({
         template: Handlebars.compile($('#Room').html()),
+		initialize: function(){
+			messages = [];
+			field = this.$('#messageToSend');
+			sendButton = this.$("#send");
+			content = this.$("#chatView");
+			name = this.$("#name");
+			socket = io.connect('http://localhost:3000');
+			
+			socket.on('message', function (data) {
+				if(data.message) {
+					messages.push(data);
+					var html = '';
+					for(var i=0; i<messages.length; i++) {
+						html += '<b>' + (messages[i].username ? messages[i].username : 'Server') + ': </b>';
+						html += messages[i].message + '<br />';
+					}
+					content.innerHTML = html;
+					content.scrollTop = content.scrollHeight;
+				} else {
+					console.log("There is a problem:", data);
+				}
+			});
+			
+			field.keyup(function(e) {
+				if(e.keyCode == 13) {
+					sendMessage();
+				}
+			});
+		 
+			sendButton.onclick = sendMessage = function() {
+				if(name.value == "") {
+					alert("Please type your name!");
+				} else {
+					var text = field.value;
+					socket.emit('send', { message: text, username: name.value });
+					field.value = "";
+				}
+			};
+		},
         render: function() {
             if (Parse.User.current()) {
                 this.$el.html(this.template());
@@ -40,7 +85,7 @@ $(document).ready(function(){
     });
     var SignupView = Parse.View.extend({
         template: Handlebars.compile($('#Signup').html()),
-         events: {
+        events: {
             'submit #signupform': 'signup',
         },
         signup: function(e){
@@ -108,12 +153,11 @@ $(document).ready(function(){
             console.log("logging out");
             Parse.User.logOut();
             console.log('successful logout');
-            videoRouter.outheader(); 
-            videoRouter.navigate('',{trigger: true});
+            videoRouter.navigate('outheader', {trigger: true}); 
         },
         render: function() {
             if (Parse.User.current()) {
-                this.$el.html(this.template());
+                this.$el.html(this.template({username: Parse.User.current().getUsername()}));
             }
             else{
                 videoRouter.outheader();
@@ -193,9 +237,10 @@ $(document).ready(function(){
             console.log('inside categories');
             var categoryQuery = new Parse.Query(Category);
             collection= categoryQuery.collection();
+            username = Parse.User.current().getUsername();
             collection.fetch().then(function(categories){
             // Render blogs
-                var categoriesView = new CategoriesView({ collection: categories });
+                var categoriesView = new CategoriesView({ collection: categories, username: username });
 				categoriesView.render();
                 $container.html(categoriesView.el);
 				//$sidebar.html(categoriesView.el);
