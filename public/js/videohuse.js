@@ -1,12 +1,15 @@
 $(document).ready(function(){
 
 	Parse.$ = jQuery;
-    
+    //var Pubnub = require('pubnub-3.7.16.min.js');
+    var pubnub = PUBNUB({
+        subscribe_key: 'sub-c-33095532-8e44-11e5-a52c-02ee2ddab7fe', // always required
+        publish_key: 'pub-c-3c545752-df8c-41ac-a105-c69ebf45da40' 
+        });   
 	// Replace this line with the one on your Quickstart Guide Page
 	Parse.initialize("X7LP3L6kwwhLSc7nKGidi9UcnfC41XaOYIxxPbkq", "Dr7rcytsF6MrtE5lZT0olIiV6MvJ55AlgRz1Ntfz");
 	var $container = $('#main'),
         $topmenu = $('#topmenu'),
-        $sidebar = $('#chat'),
         Category = Parse.Object.extend('Category', {}),
         Categories = Parse.Collection.extend({
 			model: Category
@@ -14,56 +17,42 @@ $(document).ready(function(){
 		hand = Handlebars.registerHelper('scripting', function(scriptPath) {
 		    return "<script src='" + scriptPath + "' type='text/javascript'></script>";
 		});
-    var message;
-    var field;
-    var sendButton;
-    var content;
-    var name;
-    var socket;
+   var messages = ['Welcome to the room'];
     var Roomview = Parse.View.extend({
         template: Handlebars.compile($('#Room').html()),
-		initialize: function(){
-			messages = [];
-			field = this.$('#messageToSend');
-			sendButton = this.$("#send");
-			content = this.$("#chatView");
-			name = this.$("#name");
-			socket = io.connect('http://localhost:3000');
-			
-			socket.on('message', function (data) {
-				if(data.message) {
-					messages.push(data);
-					var html = '';
-					for(var i=0; i<messages.length; i++) {
-						html += '<b>' + (messages[i].username ? messages[i].username : 'Server') + ': </b>';
-						html += messages[i].message + '<br />';
-					}
-					content.innerHTML = html;
-					content.scrollTop = content.scrollHeight;
-				} else {
-					console.log("There is a problem:", data);
-				}
-			});
-			
-			field.keyup(function(e) {
-				if(e.keyCode == 13) {
-					sendMessage();
-				}
-			});
-		 
-			sendButton.onclick = sendMessage = function() {
-				if(name.value == "") {
-					alert("Please type your name!");
-				} else {
-					var text = field.value;
-					socket.emit('send', { message: text, username: name.value });
-					field.value = "";
-				}
-			};
-		},
+        events: {
+            'click #send': 'publish',
+        },
+        initialize: function(){
+            pubnub.subscribe({
+                channel: 'chat',
+                connect: function(){
+                    pubnub.publish ({
+                        channel: 'chat',
+                        message: 'Welcome to the room'
+                    } );
+                },
+                message: function(text){
+                        console.log('inside subscribe message');
+                        messages.push(text);
+                        
+                        }
+            });
+        },
+
+        publish: function(e) {
+            e.preventDefault();
+            pubnub.publish({
+                channel: 'chat',
+                message: $('#messageToSend').val(),
+                callback: function(m){ console.log(m) }
+            });
+            this.$el.html(this.template({messages: messages}));
+        },
+
         render: function() {
             if (Parse.User.current()) {
-                this.$el.html(this.template());
+                this.$el.html(this.template({messages: messages}));
             }
             else{
 			     videoRouter.navigate('', {trigger: true});
@@ -102,8 +91,8 @@ $(document).ready(function(){
             user.signUp(null,{
                 success: function (user){
                     console.log('successful signup');
-                    videoRouter.navigate('inheader',{trigger: true});
-                    videoRouter.navigate('categories' ,{trigger: true});
+                    videoRouter.navigate('#inheader',{trigger: true});
+                    videoRouter.navigate('#categories' ,{trigger: true});
                 },
                 error: function (user, error){
                     console.log('unsuccessful signup');
@@ -116,7 +105,7 @@ $(document).ready(function(){
         },
         render: function() {
             if (Parse.User.current()) {
-                videoRouter.navigate('categories', {trigger: true});
+                videoRouter.navigate('#categories', {trigger: true});
             }
             else{
                 this.$el.html(this.template());
@@ -131,11 +120,11 @@ $(document).ready(function(){
         enter_signup: function(e){
             e.preventDefault();
             console.log("entering signup page");
-            videoRouter.navigate('signup',{trigger: true});
+            videoRouter.navigate('#signup',{trigger: true});
         },
         render: function() {
             if (Parse.User.current()) {
-                videoRouter.navigate('categories', {trigger: true});
+                videoRouter.navigate('#categories', {trigger: true});
             }
             else{
                 this.$el.html(this.template());
@@ -146,14 +135,14 @@ $(document).ready(function(){
     var inHeaderView = Parse.View.extend({
         template: Handlebars.compile($('#inHeaderView').html()),
         events: {
-            'submit #logoutform': 'logout',
+            'click #logout-button': 'logout',
         },
         logout: function(e){
             e.preventDefault();
             console.log("logging out");
             Parse.User.logOut();
             console.log('successful logout');
-            videoRouter.navigate('outheader', {trigger: true}); 
+            videoRouter.navigate('#outheader', {trigger: true}); 
         },
         render: function() {
             if (Parse.User.current()) {
@@ -175,7 +164,7 @@ $(document).ready(function(){
             Parse.User.logIn($('#user').val(), $('#pass').val(), {
                 success: function(user){
                     videoRouter.inheader();
-				    videoRouter.navigate('categories',{trigger: true});
+				    videoRouter.navigate('#categories',{trigger: true});
                 },
                 error: function (user, error){
                     console.log("given username: "+$('#user').val());
