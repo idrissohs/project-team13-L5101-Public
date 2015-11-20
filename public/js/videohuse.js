@@ -17,42 +17,83 @@ $(document).ready(function(){
 		hand = Handlebars.registerHelper('scripting', function(scriptPath) {
 		    return "<script src='" + scriptPath + "' type='text/javascript'></script>";
 		});
-   var messages = ['Welcome to the room'];
+   var messages = [];
+   var player;
+   var currentVideo;
     var Roomview = Parse.View.extend({
         template: Handlebars.compile($('#Room').html()),
         events: {
             'click #send': 'publish',
+            'keyup #messageToSend': 'enterDown',
+            'click #searchButton': 'youtubeQuery',
+            'click .clip': 'loadVideo'
         },
         initialize: function(){
+                player = new YT.Player('player', {
+                    height: '390',
+                    width: '640',
+                    videoId: 'M7lc1UVf-VE',
+                    events: {
+                        'onReady': this.onPlayerReady,
+                        //'onStateChange': onPlayerStateChange
+                    }
+                });
+
             pubnub.subscribe({
                 channel: 'chat',
                 connect: function(){
                     pubnub.publish ({
                         channel: 'chat',
-                        message: 'Welcome to the room'
+                        message: Parse.User.current().getUsername() + ' has joined the room.'
                     } );
                 },
                 message: function(text){
                         console.log('inside subscribe message');
                         messages.push(text);
-                        
+                        var html ='';
+                        for (var i=0; i < messages.length; i++){
+                            html += messages[i] + "<br />";
                         }
-            });
+                        var div = $("#box")[0];
+                        $('#box').html(html);
+                        div.scrollTop = div.scrollHeight;
+                        //$('#box').scrollTop($('box')[0].scrollHeight);
+                    }
+            });  
         },
-
+        onPlayerReady: function (e){
+            e.target.playVideo();
+        },
         publish: function(e) {
             e.preventDefault();
             pubnub.publish({
                 channel: 'chat',
-                message: $('#messageToSend').val(),
-                callback: function(m){ console.log(m) }
+                message: Parse.User.current().getUsername() +': '+ $('#messageToSend').val(),
+                callback: function(m){
+                    $('#messageToSend').val('');
+                    console.log(m) }
             });
-            this.$el.html(this.template({messages: messages}));
+        },
+        youtubeQuery: function(e){
+            e.preventDefault();
+           ytEmbed.init({'block':'searchResults','type':'search','q': $('#videoQuery').val() ,'results': 3, 'player': 'link'});
+        },
+        loadVideo: function(e){
+            e.preventDefault();
+            videoId=e.currentTarget.attributes.href.nodeValue.split('v=');
+            currentVideo= videoId[1]
+            player.loadVideoById(currentVideo);
+        },
+
+        enterDown: function(e) {
+            if (e.keyCode == 13){
+               this.publish(e);
+           }
         },
 
         render: function() {
             if (Parse.User.current()) {
-                this.$el.html(this.template({messages: messages}));
+                this.$el.html(this.template());
             }
             else{
 			     videoRouter.navigate('', {trigger: true});

@@ -37,10 +37,7 @@
         <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.7.min.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script type="text/javascript" src='js/socket.io.js'></script>
-	
-	
-	
-	<!-- This is where our js code will be -->
+
 	
     <![endif]-->
 
@@ -52,6 +49,7 @@
 		Parse.initialize("X7LP3L6kwwhLSc7nKGidi9UcnfC41XaOYIxxPbkq", "Dr7rcytsF6MrtE5lZT0olIiV6MvJ55AlgRz1Ntfz");
 	</script>
     <script src="https://cdn.pubnub.com/pubnub-3.7.16.min.js"></script>
+    <script src="http://www.yvoschaap.com/ytpage/ytembed.js"></script>
     <script>
 
     </script>
@@ -164,13 +162,12 @@
         </div>
     </script>
     <script src="https://cdn.pubnub.com/pubnub-3.7.16.min.js"></script>
+    <script id="youtubeAPI" src="https://www.youtube.com/iframe_api"></script>
     <script id="Room" type="text/x-handlebars-template">
         <div class = "container">
 			<div class="row">
 				<div class="col-md-8" id="main" style="text-align: center;">
-					<iframe width="420" height="315"
-					src="http://www.youtube.com/embed/XGSy3_Czz8k?autoplay=1">
-					</iframe>
+					<div id='player'> </div>
 				</div>
 		
 		
@@ -178,17 +175,17 @@
 		
 					<div id="box" style=
 					'width: 500px; height: 300px; margin: 20px 20px 20px 20px; border: solid 1px #999; overflow-y: scroll;'>
-                    <ul>
-                    {{#each messages}}
-                    <li> {{this}} </li>
-                    {{/each}}
-                    </ul>
 					</div> 
 					Message: <input autocomplete="off" id="messageToSend" name=
 					"message" style='width:350px;' type="text"> <input id="send" type=
 					"button" value="Send">
 				</div>
 			</div>
+            <div class="row">
+                <input id="videoQuery" type="text"/>
+                <input id="searchButton" type="button" value="search"/>
+                <div id="searchResults" class="hello"></div>
+            </div>
 		</div>
     </script>
 
